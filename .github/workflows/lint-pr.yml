@@ -1,0 +1,57 @@
+name: Lint pull requests
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  eslint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install deps
+        run: |
+          npm ci || npm install
+
+      - name: Run ESLint
+        run: |
+          npx eslint . --format json -o eslint-report.json || true
+
+      - name: Upload report artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eslint-report
+          path: eslint-report.json
+
+      - name: Create check suite summary
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.existsSync('eslint-report.json') ? JSON.parse(fs.readFileSync('eslint-report.json','utf8')) : [];
+            const hasProblems = report.some(r => r.errorCount + r.warningCount > 0);
+            const conclusion = hasProblems ? 'failure' : 'success';
+            const outputTitle = hasProblems ? 'ESLint found problems' : 'ESLint passed';
+            const outputSummary = hasProblems ? 'Open the artifact for details.' : 'No lint issues found.';
+            await github.checks.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              name: 'ESLint',
+              head_sha: context.payload.pull_request.head.sha,
+              status: 'completed',
+              conclusion: conclusion,
+              output: {
+                title: outputTitle,
+                summary: outputSummary
+              }
+            });

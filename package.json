@@ -1,0 +1,29 @@
+{
+  "name": "github-automation-demo",
+  "version": "1.0.0",
+  "description": "Demo repo for Make.com GitHub automation added test branch added pr 1",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint ."
+  },
+
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/samikshaagarwal08/github-automation-demo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/samikshaagarwal08/github-automation-demo/issues"
+  },
+  "homepage": "https://github.com/samikshaagarwal08/github-automation-demo#readme",
+  "devDependencies": {
+    "eslint": "^9.38.0"
+  }
+}
