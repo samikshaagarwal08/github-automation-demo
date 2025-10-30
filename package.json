@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/samikshaagarwal08/github-automation-demo#readme",
   "devDependencies": {
+    "@eslint/js": "^9.38.0",
     "eslint": "^9.38.0"
   },
   "dependencies": {
@@ -84,11 +85,13 @@
     "path-key": "^3.1.1",
     "prelude-ls": "^1.2.1",
     "punycode": "^2.3.1",
+    "react": "^19.2.0",
     "resolve-from": "^4.0.0",
     "shebang-command": "^2.0.0",
     "shebang-regex": "^3.0.0",
     "strip-json-comments": "^3.1.1",
     "supports-color": "^7.2.0",
+    "tailwind": "^4.0.0",
     "type-check": "^0.4.0",
     "uri-js": "^4.4.1",
     "which": "^2.0.2",
