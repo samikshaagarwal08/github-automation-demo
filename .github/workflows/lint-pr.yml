@@ -4,10 +4,6 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 
-permissions:
-  contents: read
-  checks: write
-
 jobs:
   eslint:
     runs-on: ubuntu-latest
@@ -39,25 +35,21 @@ jobs:
       - name: Create check suite summary
         if: always()
         uses: actions/github-script@v7
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           script: |
             const fs = require('fs');
-            const report = fs.existsSync('eslint-report.json')
-              ? JSON.parse(fs.readFileSync('eslint-report.json', 'utf8'))
-              : [];
+            const report = fs.existsSync('eslint-report.json') ? JSON.parse(fs.readFileSync('eslint-report.json','utf8')) : [];
             const hasProblems = report.some(r => r.errorCount + r.warningCount > 0);
             const conclusion = hasProblems ? 'failure' : 'success';
             const outputTitle = hasProblems ? 'ESLint found problems' : 'ESLint passed';
             const outputSummary = hasProblems ? 'Open the artifact for details.' : 'No lint issues found.';
-            await github.rest.checks.create({
+            await github.checks.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
               name: 'ESLint',
               head_sha: context.payload.pull_request.head.sha,
               status: 'completed',
-              conclusion,
+              conclusion: conclusion,
               output: {
                 title: outputTitle,
                 summary: outputSummary
