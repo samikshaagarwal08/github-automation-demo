@@ -1,5 +1,3 @@
 # github-automation-demo
-Demo repo for Make.com GitHub automation
-
-test
-fixed all lints
+GitHub Automated PR & Issue Management Workflow
+Documentation that mirrors the Make.com scenario snapshot, covering triggers, routers, module stacks, data logging, and roadmap for next release milestones.
